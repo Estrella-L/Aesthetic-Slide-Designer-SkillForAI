@@ -23,6 +23,8 @@
 | **Claude Code（全局）** | `~/.claude/skills/aesthetic-slide-designer/` |
 | **Claude Code（项目）** | `<项目>/.claude/skills/aesthetic-slide-designer/` |
 | **Claude.ai / 桌面端** | 先开启 Code execution，再把文件夹打包成 ZIP（根目录是 `SKILL.md`），在 Customize → Skills 上传并启用 |
+| **Codex CLI（全局）** | `~/.codex/skills/aesthetic-slide-designer/`（Windows：`%USERPROFILE%\.codex\skills\...`） |
+| **Codex CLI（项目）** | `<项目>/.codex/skills/aesthetic-slide-designer/` |
 
 > 放好后无需重启即被识别（Claude.ai 需上传 ZIP）。
 
@@ -30,6 +32,22 @@
 ```bash
 git clone https://github.com/Estrella-L/Aesthetic-Slide-Designer-SkillForAI.git ~/.claude/skills/aesthetic-slide-designer
 ```
+
+**安装到 Codex CLI：**
+```bash
+git clone https://github.com/Estrella-L/Aesthetic-Slide-Designer-SkillForAI.git ~/.codex/skills/aesthetic-slide-designer
+```
+Codex 与 Claude 共用同一套 `SKILL.md` 格式（YAML frontmatter + 正文 + `references/`、`assets/` 渐进式加载），无需改动即可使用。除自动触发外，Codex 还支持显式调用 `$aesthetic-slide-designer`。
+
+### 在 Trae 中使用
+
+Trae 目前**尚未原生支持 `SKILL.md` 的自动发现**（社区已提需求 [Trae-AI/TRAE#2253](https://github.com/Trae-AI/TRAE/issues/2253)），但可以手动接入，三选一：
+
+1. **作为项目规则（推荐）**：在 Trae 里打开本项目，进入 `设置 → Rules / 规则`，把 `SKILL.md` 的正文粘贴进项目规则；需要时再用 `#` 引用 `references/`、`assets/`、`presets/` 里的文件作为上下文。
+2. **自定义智能体（Agent）**：新建一个自定义智能体，把 `SKILL.md` 内容作为它的系统提示/指令，专门用来做 slide。
+3. **临时引用**：对话时用 `#File` / `#Folder` 把整个 skill 文件夹拖入上下文，再描述需求。
+
+> 等 Trae 支持 `SKILL.md` 生态后，直接放进它约定的 skills 目录即可，无需上述手动步骤。
 
 ---
 
