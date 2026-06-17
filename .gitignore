@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# 生成的演示产物（按需，不随 skill 分发）
+slides*.html
+*.local.html
+
+# 临时文件
+*.log
+*.tmp

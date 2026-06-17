@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slides</title>
+  <!-- 按 Style Spec 替换字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== 设计 token：按提取到的风格替换这里 ===== */
+    :root {
+      --color-primary: #1A1A2E;
+      --color-accent:  #E94560;
+      --color-bg:      #0F0F1A;
+      --color-surface: #1A1A2E;
+      --color-text:    #F5F5F5;
+      --color-muted:   #9CA3AF;
+
+      --font-display: "Playfair Display", serif;
+      --font-body:    "Inter", system-ui, sans-serif;
+
+      --fs-title: clamp(2.5rem, 5vw, 4rem);
+      --fs-h2:    clamp(1.5rem, 3vw, 2.25rem);
+      --fs-body:  clamp(1rem, 1.6vw, 1.25rem);
+
+      --space: 8px;
+      --radius: 0px;
+      --shadow: none;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .slide {
+      display: none;
+      width: min(96vw, 1280px);
+      aspect-ratio: 16 / 9;
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: calc(var(--space) * 8);
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide.active { display: flex; }
+
+    .eyebrow {
+      color: var(--color-accent);
+      font-size: var(--fs-body);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: calc(var(--space) * 2);
+    }
+
+    .title {
+      font-family: var(--font-display);
+      font-size: var(--fs-title);
+      line-height: 1.05;
+      margin-bottom: calc(var(--space) * 3);
+    }
+
+    h2 { font-size: var(--fs-h2); margin-bottom: calc(var(--space) * 3); }
+
+    .subtitle, p { font-size: var(--fs-body); color: var(--color-muted); line-height: 1.6; }
+
+    ul { list-style: none; display: flex; flex-direction: column; gap: calc(var(--space) * 2); }
+    li { font-size: var(--fs-body); padding-left: calc(var(--space) * 3); position: relative; }
+    li::before { content: "—"; position: absolute; left: 0; color: var(--color-accent); }
+
+    .stat { font-family: var(--font-display); font-size: clamp(4rem, 12vw, 9rem); color: var(--color-accent); line-height: 1; }
+
+    #page {
+      position: fixed; bottom: 24px; right: 32px;
+      font-size: 0.9rem; color: var(--color-muted); letter-spacing: 0.1em;
+    }
+
+    @media print {
+      body { display: block; overflow: visible; }
+      .slide { display: flex !important; page-break-after: always; width: 100%; }
+      #page { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 封面页 -->
+  <section class="slide active">
+    <p class="eyebrow">Presentation</p>
+    <h1 class="title">在此填写主标题</h1>
+    <p class="subtitle">副标题 / 作者 / 日期</p>
+  </section>
+
+  <!-- 要点页 -->
+  <section class="slide">
+    <p class="eyebrow">Section 01</p>
+    <h2>要点标题</h2>
+    <ul>
+      <li>要点一</li>
+      <li>要点二</li>
+      <li>要点三</li>
+    </ul>
+  </section>
+
+  <!-- 数据页 -->
+  <section class="slide">
+    <p class="eyebrow">By the numbers</p>
+    <div class="stat">98%</div>
+    <p class="subtitle">关键数据说明</p>
+  </section>
+
+  <!-- 结尾页 -->
+  <section class="slide">
+    <h1 class="title">谢谢</h1>
+    <p class="subtitle">联系方式 / 链接</p>
+  </section>
+
+  <div id="page">1 / 4</div>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    let i = 0;
+    const show = n => {
+      i = Math.max(0, Math.min(slides.length - 1, n));
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+      document.querySelector('#page').textContent = `${i + 1} / ${slides.length}`;
+    };
+    addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+      if (e.key === 'ArrowLeft') show(i - 1);
+    });
+    show(0);
+  </script>
+</body>
+</html>
